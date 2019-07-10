@@ -38,13 +38,15 @@ class _HomeState extends State<Home> {
   }
 
   void _addToDo() {
-    setState(() {
-      ToDo newToDo = ToDo(title: _toDoController.text, ok: false);
-      _toDoController.text = '';
-      _toDoList.add(newToDo);
+    if (_toDoController.text.isNotEmpty) {
+      setState(() {
+        ToDo newToDo = ToDo(title: _toDoController.text, ok: false);
+        _toDoController.text = '';
+        _toDoList.add(newToDo);
 
-      toDoService.saveData(_toDoList);
-    });
+        toDoService.saveData(_toDoList);
+      });
+    }
   }
 
   Future<Null> _refresh() async {
@@ -78,7 +80,6 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Lista de Tarefas'),
-        backgroundColor: Colors.blueAccent,
         centerTitle: true,
       ),
       body: Column(
@@ -91,13 +92,11 @@ class _HomeState extends State<Home> {
                     child: TextField(
                   controller: _toDoController,
                   decoration: InputDecoration(
-                      labelText: 'Nova Tarefa',
-                      labelStyle: TextStyle(color: Colors.blueAccent)),
+                    labelText: 'Nova Tarefa',
+                  ),
                 )),
                 RaisedButton(
-                  color: Colors.blueAccent,
                   child: Text('ADD'),
-                  textColor: Colors.white,
                   onPressed: _addToDo,
                 )
               ],
@@ -121,7 +120,7 @@ class _HomeState extends State<Home> {
     return Dismissible(
       key: Key(DateTime.now().millisecondsSinceEpoch.toString()),
       background: Container(
-        color: Colors.red,
+        color: Colors.redAccent,
         child: Align(
           alignment: Alignment(-0.9, 0.0),
           child: Icon(
